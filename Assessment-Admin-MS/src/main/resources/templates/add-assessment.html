@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Add Assignment</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<!-- Include header fragment -->
+    <header th:replace="fragments/header :: header"></header>
+  
+  <!-- Main content -->
+<div class="container mt-5 flex-grow-1">
+    <h2 class="text-center">Add Assignment</h2>
+
+    <form th:action="@{/admin/add-assignment}" method="post">
+        <div class="form-group">
+            <label for="name">Assignment Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter assignment name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="type">Assignment Type</label>
+            <input type="text" class="form-control" id="type" name="type" placeholder="Enter assignment type" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Assignment</button>
+    </form>
+</div>
+<!-- Include footer fragment -->
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

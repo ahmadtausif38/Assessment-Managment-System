@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register for Assessment</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<!-- Header Section -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <span class="navbar-text">
+            Hi, <span th:text="${username}"></span>
+        </span>
+        <div class="ml-auto">
+            <a class="btn btn-outline-danger" href="/logout">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">Register for Assessment</h4>
+                </div>
+                 <!-- Display error message if present -->
+                    <div th:if="${errorMessage}" class="alert alert-danger">
+                        <p th:text="${errorMessage}"></p>
+                    </div>
+                <div class="card-body">
+                    <form action="/employee/assessment-register" method="post">
+                        
+                        <!-- Current User ID (Automatically Populated) -->
+                        <div class="form-group">
+                            <label for="userId">User ID</label>
+                            <input type="text" id="userId" th:value="${userId}" class="form-control" readonly>
+                            <!-- Hidden field to ensure userId is submitted -->
+                            <input type="hidden" id="userId" name="userId" th:value="${userId}">
+                        </div>
+
+                        <!-- Email Input Field -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" th:value="${email}" class="form-control" required readonly="readonly">
+                        </div>
+
+                        <!-- Assessment Type Hidden Field (if needed) -->
+                        <div class="form-group">
+                            <input type="hidden" id="assessmentType" name="assessmentType" th:value="${assessmentType}">
+                        </div>
+
+                        <!-- Assessment Name Dropdown (Populated via Model) -->
+                        <div class="form-group">
+                            <label for="assessmentName">Select Assessment</label>
+                            <select id="assessmentName" name="assessmentName" class="form-control" required>
+                                <option value="" disabled selected>Select an Assessment</option>
+                                <option th:each="assessment : ${assessments}" th:value="${assessment.name}" th:text="${assessment.name}"></option>
+                            </select>
+                        </div>
+
+                        <!-- Date Selection -->
+                        <div class="form-group">
+                            <label for="assessmentDate">Date of Assessment</label>
+                            <input type="date" id="assessmentDate" name="assessmentDate" th:attr="min=${today}" class="form-control" required>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer Section -->
+<footer class="footer bg-light text-center mt-2">
+    <div class="container">
+        <span class="text-muted">&copy; 2024 Tausif Ahmad -- <em>HCLTech</em>. All Rights Reserved.</span>
+    </div>
+</footer>
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

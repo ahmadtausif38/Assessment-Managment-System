@@ -1,0 +1,78 @@
+server:
+  port: 5000
+
+
+spring:
+  application:
+    name: assessment-eurekaServer-ms
+    
+eureka:
+  instance:
+    hostname: localhost
+    
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    
+
+---
+spring:
+  config:
+    activate:
+      on-profile: eurekaone
+ 
+server:
+  port: 5001
+ 
+eureka:
+  instance:
+    hostname: eureka-primary
+    appname: eone
+  client:
+    fetch-registry: true
+    register-with-eureka: false
+    serviceUrl:
+      defaultZone: http://localhost:5002/eureka, http://localhost:5003/eureka
+      
+      
+---
+
+
+spring:
+  config:
+    activate:
+      on-profile: eurekatwo
+ 
+server:
+  port: 5002
+ 
+eureka:
+  instance:
+    hostname: eureka-secondary
+    appname: etwo
+  client:
+    fetch-registry: true
+    register-with-eureka: false
+    serviceUrl:
+      defaultZone: http://localhost:5001/eureka, http://localhost:5003/eureka
+      
+---
+
+spring:
+  config:
+    activate:
+      on-profile: eurekathree
+ 
+server:
+  port: 5003
+ 
+eureka:
+  instance:
+    hostname: eureka-tertiary
+    appname: ethree
+  client:
+    fetch-registry: true
+    register-with-eureka: false
+    serviceUrl:
+      defaultZone: http://localhost:5002/eureka, http://localhost:5001/eureka
+      

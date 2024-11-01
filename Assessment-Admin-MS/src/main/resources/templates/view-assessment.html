@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>View Assignment</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Include header fragment -->
+    <header th:replace="fragments/header :: header"></header>
+
+    <!-- Main content -->
+    <div class="container mt-5 flex-grow-1">
+        <h2 class="text-center">All Assignments</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Actions</th> <!-- New column for actions -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through assignments -->
+                <tr th:each="assignment : ${assignments}">
+                    <td th:text="${assignment.id}"></td>
+                    <td th:text="${assignment.name}"></td>
+                    <td th:text="${assignment.type}"></td>
+                    <td>
+                        <!-- Add a delete button -->
+                        <form th:action="/admin/delete-assignment/{id}(id=${assignment.id})" method="post">
+                            <input type="hidden" name="_method" value="delete" /> <!-- Spoof DELETE method -->
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include footer fragment -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

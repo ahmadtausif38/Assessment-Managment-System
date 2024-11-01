@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Registered Users for Assignment</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<!-- Include header fragment -->
+    <header th:replace="fragments/header :: header"></header>
+  
+  <!-- Main content -->
+<div class="container mt-5 flex-grow-1">
+    <h2 class="text-center">Registered Users for Assignment</h2>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Assessment Date</th>
+            <th>Registration Date</th>
+            <th>Completed</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop through registered users -->
+        <tr th:each="registration : ${registrations}">
+            <td th:text="${registration.userId}"></td>
+            <td th:text="${registration.assessmentDate}"></td>
+            <td th:text="${registration.registrationDate}"></td>
+            <td th:text="${registration.isCompleted ? 'Yes' : 'No'}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Include footer fragment -->
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:5000/eureka
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
+    prefer-ip-address: true
+
+server:
+  port: 8888
+  
+spring:
+  application:
+    name: assessment-config-server-ms
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/tausifahmad38/MS-Assessment-ConfigServer
+          clone-on-start: true
+          default-label: main
+
+
+

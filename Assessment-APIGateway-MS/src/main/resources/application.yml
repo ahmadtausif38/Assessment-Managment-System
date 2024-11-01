@@ -1,0 +1,49 @@
+server:
+  port: 8081
+  
+jwt:
+  secret: "UjV2aHR3a3Rmd1g5M0lQdFJrWm5NVkFQbW5ReDdsaUt5MjM3Y2Z3ZzZaYw=="
+
+
+spring:
+  application:
+    name: assessment-apigateway-ms
+    
+  config:
+    import: optional:configserver:http://localhost:8888  # Config server URL
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true  # Enable DiscoveryClient for routing through Eureka
+      routes:
+        # Static route example (optional)
+        - id: employee-route
+          uri: lb://assessment-employee-ms
+          predicates:
+            - Path=/employee/**
+          filters:
+            - JwtAuthenticationFilter
+        
+        # Dynamic route example with service discovery (via Eureka)
+        - id: admin-route
+          uri: lb://assessment-admin-ms  # Replace with your actual service name registered in Eureka
+          predicates:
+            - Path=/admin/**
+            
+          filters:
+            - JwtAuthenticationFilter
+            
+        - id: auth-route
+          uri: lb://assessment-authentication-ms
+          predicates:
+            - Path=/auth/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:5000/eureka
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
+    prefer-ip-address: true
