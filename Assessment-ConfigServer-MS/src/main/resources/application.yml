@@ -16,9 +16,11 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/tausifahmad38/MS-Assessment-ConfigServer
+          uri: https://github.com/ahmadtausif38/Assessment-ConfigServer
           clone-on-start: true
           default-label: main
+          username: ahmadtausif38
+          password: ${MY_SECRET_KEY}
 
 
 

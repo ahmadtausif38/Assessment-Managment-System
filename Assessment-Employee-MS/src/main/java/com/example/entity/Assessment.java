@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -18,6 +19,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Assessment {
 	
 	
@@ -26,6 +28,7 @@ public class Assessment {
 	private Long id;
 	private String name;
 	private String type;
+	private Boolean isDeleted;
 	@OneToMany(mappedBy = "assessment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@ToString.Exclude
 	private Set<AssessmentRegistration> registrations;
@@ -33,6 +36,7 @@ public class Assessment {
 	public Assessment(String name, String type) {
 		this.name=name;
 		this.type=type;
+		this.isDeleted=false;
 	}
 	
 

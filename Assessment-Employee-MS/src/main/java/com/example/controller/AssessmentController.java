@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.AssessmentEmployeeMsApplication;
+import com.example.dto.AssessmentDTO;
 import com.example.dto.RegistrationDTO;
 import com.example.entity.Assessment;
 import com.example.entity.AssessmentRegistration;
@@ -54,17 +56,29 @@ public class AssessmentController {
 	
 	@GetMapping("/employee-home")
 	public ModelAndView employeeHomePages() {
-		ModelAndView mv= new ModelAndView();
-		mv.setViewName("employee-home");
+		ModelAndView mv= new ModelAndView("employee-home");
+	   List<String> assessmentTypes = Arrays.asList("Technical", "Behavioral", "Analytical", "Leadership", "Communication", "Creative");
+
+		mv.addObject("assessmentTypes", assessmentTypes);
 		return mv;
 	}
+	//add assessment
+	@PostMapping("/assessment-add")
+	@ResponseBody
+	public Boolean addAssessment(@RequestParam("name") String assessmentName, @RequestParam("type") String assessmentType) {
+		return service.saveAssessment(assessmentName, assessmentType);	
+	}
+	
+	//view all asssessments
+	
+	//view assessmentById
 	
 	@GetMapping("/assessment-register")
 	public ModelAndView assessmentRegister(@RequestParam("assessmentType") String assessmentType, HttpServletRequest request) {
 		
 		ModelAndView mv= new ModelAndView("assessment-registration");
 		
-		List<Assessment> assessments=repo.findByType(assessmentType);
+		List<Assessment> assessments=service.viewAssessmentByType(assessmentType);
 		Long userId=10L;
 		String email=null;
 		String username=null;
@@ -110,5 +124,17 @@ public class AssessmentController {
 			return mv;
 		
 	}
+	
+	 @GetMapping("/assessments")
+	 @ResponseBody
+	public List<AssessmentDTO> getAllAssessments(){
+		return service.getAllAssessments();
+	 }
+	 
+	 @PostMapping("/delete-assessment")
+	 @ResponseBody
+	public Boolean deleteAssessmentById(@RequestParam("id") Long id) {
+		 return service.deleteAssessmentById(id);
+	 }
 
 }
