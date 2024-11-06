@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>View Assignment</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <!-- Include header fragment -->
@@ -13,7 +21,9 @@
     <!-- Main content -->
     <div class="container mt-5 flex-grow-1">
         <h2 class="text-center">All Assignments</h2>
-
+        <div th:if="${message}" class="alert alert-danger" role="alert">
+            <span th:text="${message}"></span>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -25,20 +35,24 @@
             </thead>
             <tbody>
                 <!-- Loop through assignments -->
-                <tr th:each="assignment : ${assignments}">
-                    <td th:text="${assignment.id}"></td>
-                    <td th:text="${assignment.name}"></td>
-                    <td th:text="${assignment.type}"></td>
+                <tr th:each="assessment : ${assessments}">
+                    <td th:text="${assessment.id}"></td>
+                    <td th:text="${assessment.name}"></td>
+                    <td th:text="${assessment.type}"></td>
                     <td>
-                        <!-- Add a delete button -->
-                        <form th:action="/admin/delete-assignment/{id}(id=${assignment.id})" method="post">
-                            <input type="hidden" name="_method" value="delete" /> <!-- Spoof DELETE method -->
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
+                       <form action="/admin/delete-assessment" method="post">
+    						<input type="hidden" th:name="id" th:value="${assessment.id}" />
+    						<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+						</form>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <!-- Link to archived assessments -->
+    <div class="container text-center mb-3">
+        <a href="/admin/archived-assessments" class="btn btn-secondary">View Archived Assessments</a>
     </div>
 
     <!-- Include footer fragment -->

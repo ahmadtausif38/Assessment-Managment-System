@@ -1,19 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/assessment_managment
-    username: root
-    password: root
-    initialization-mode: always  # Ensure that the data.sql script is executed
-
-  jpa:
-    hibernate:
-      ddl-auto: update  # Automatically updates the schema without dropping existing tables
-    
-  sql:
-    init:
-      mode: always
-      data-locations: classpath:data.sql  # Correct the path to the SQL script without extra spaces
-
   config:
     import: optional:configserver:http://localhost:8888  # URL of the Config Server
     fail-fast: true  # Optional: fail startup if the config server is not available

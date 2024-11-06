@@ -54,7 +54,7 @@ public class UserService {
 			user.setFirstName(userDto.getFirstName());
 			user.setLastName(userDto.getLastName());
 			user.setRole(Role.USER);
-			user.setPassword(encoder.encode(user.getPassword()));
+			user.setPassword(encoder.encode(userDto.getPassword()));
 			repo.save(user);
 			log.info("User registered successfully...");
 			return "";
