@@ -94,8 +94,6 @@ public class UserController {
 	    
 	    return mv;
 	}
-
-	
 	
 	@GetMapping("/users")
 	@ResponseBody

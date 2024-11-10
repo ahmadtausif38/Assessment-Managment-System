@@ -19,7 +19,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.example.filter.JwtFilter;
 import com.example.handler.CustomLoginFailureHandler;
 import com.example.handler.CustomLoginSuccessHandler;
+import com.example.handler.CustomLogoutHandler;
 import com.example.service.MyUserDetailsService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -52,6 +55,11 @@ public class SecurityConfig {
                         .permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .logout(logout -> logout
+                        .logoutUrl("/auth/logout")
+                        .addLogoutHandler(new CustomLogoutHandler())
+                        .logoutSuccessHandler((request, response, authentication) -> response.sendRedirect("/auth/login"))
+                    )
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 		
