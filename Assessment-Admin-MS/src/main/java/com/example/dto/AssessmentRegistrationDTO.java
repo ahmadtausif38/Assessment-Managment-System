@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 public class AssessmentRegistrationDTO {
 
-	 	private Long id;
 	    private Long userId;
 	    private LocalDate assessmentDate;
 	    private LocalDate registrationDate;

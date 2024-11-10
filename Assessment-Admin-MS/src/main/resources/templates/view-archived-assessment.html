@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>View Assignment</title>
+    <title>View Archived Assignment</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -38,9 +38,9 @@
                     <td th:text="${assessment.name}"></td>
                     <td th:text="${assessment.type}"></td>
                     <td>
-                       <form action="/admin/delete-assessment" method="post">
+                       <form action="/admin/addArchived-assessment" method="post">
     						<input type="hidden" th:name="id" th:value="${assessment.id}" />
-    						<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+    						<button type="submit" class="btn btn-success btn-sm">Add Again</button>
 						</form>
                     </td>
                 </tr>
@@ -48,10 +48,7 @@
         </table>
     </div>
 
-    <!-- Link to archived assessments -->
-    <div class="container text-center mb-3">
-        <a href="/admin/archived-assessments" class="btn btn-secondary">View Archived Assessments</a>
-    </div>
+   
 
     <!-- Include footer fragment -->
     <footer th:replace="fragments/footer :: footer"></footer>

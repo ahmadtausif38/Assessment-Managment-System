@@ -8,16 +8,18 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!-- Include header fragment -->
-    <header th:replace="fragments/header :: header"></header>
+     <header th:replace="~{fragments/header :: header}"></header>
   
   <!-- Main content -->
 <div class="container mt-5 flex-grow-1">
-    <h2 class="text-center">Registered Users for Assignment</h2>
+    <h2 class="text-center">Registered Users for Assignment</h2><br>
 
-    <table class="table table-bordered">
+     <table class="table table-bordered table-striped table-hover">
         <thead>
         <tr>
             <th>User ID</th>
+            <th>Assessment ID</th>
+            <th>Assessment Name</th>
             <th>Assessment Date</th>
             <th>Registration Date</th>
             <th>Completed</th>
@@ -27,6 +29,8 @@
         <!-- Loop through registered users -->
         <tr th:each="registration : ${registrations}">
             <td th:text="${registration.userId}"></td>
+            <td th:text="${registration.assessmentId}"></td>
+            <td th:text="${registration.assessmentName}"></td>
             <td th:text="${registration.assessmentDate}"></td>
             <td th:text="${registration.registrationDate}"></td>
             <td th:text="${registration.isCompleted ? 'Yes' : 'No'}"></td>
@@ -35,6 +39,6 @@
     </table>
 </div>
 <!-- Include footer fragment -->
-<div th:replace="fragments/footer :: footer"></div>
+ <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>
