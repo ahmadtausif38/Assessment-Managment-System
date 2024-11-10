@@ -1,1 +1,23 @@
-<h1>Registration successful...</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Message</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Include header fragment -->
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <!-- Main content centered -->
+    <div class="container d-flex flex-grow-1 align-items-center justify-content-center">
+        <div class="alert alert-info text-center" role="alert">
+            <span th:text="${message}">This is the default message.</span>
+        </div>
+    </div>
+
+    <!-- Include footer fragment -->
+   <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

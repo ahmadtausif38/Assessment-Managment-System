@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Registered Assignments</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Include header fragment -->
+    <header th:replace="~{fragments/header :: header}"></header>
+  
+    <!-- Main content -->
+    <div class="container mt-5 flex-grow-1">
+        <h2 class="text-center mb-4">Registered Assignments</h2><br>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Assessment ID</th>
+                        <th>Assessment Name</th>
+                        <th>Assessment Date</th>
+                        <th>Registration Date</th>
+                        <th>Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through registered users -->
+                    <tr th:each="registration : ${registrations}">
+                        <td th:text="${registration.assessmentId}"></td>
+                        <td th:text="${registration.assessmentName}"></td>
+                        <td th:text="${registration.assessmentDate}"></td>
+                        <td th:text="${registration.registrationDate}"></td>
+                        <td th:text="${registration.isCompleted ? 'Yes' : 'No'}" ></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Include footer fragment -->
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+
+    <!-- Use full Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
