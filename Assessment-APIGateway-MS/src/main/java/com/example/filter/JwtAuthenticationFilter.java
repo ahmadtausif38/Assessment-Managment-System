@@ -65,14 +65,17 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     }
 
     private Mono<Void> redirectToLogin(ServerWebExchange exchange) {
+    	
+    	System.out.println("In redirecting method..");
         // Redirect to the login page of your authentication service
         ServiceInstance instance = loadBalancerClient.choose(applicationName);
+        
         if (instance != null) {
             String loginUrl = String.format("http://%s:%s/auth/login",
                     instance.getHost(),
                     instance.getPort());
             System.out.println("Redirecting to login URL: " + loginUrl);
-            exchange.getResponse().setStatusCode(HttpStatus.FOUND);
+            exchange.getResponse().setStatusCode(HttpStatus.SEE_OTHER);
             exchange.getResponse().getHeaders().setLocation(URI.create(loginUrl));
             return exchange.getResponse().setComplete();
         } else {
@@ -81,6 +84,8 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
             return exchange.getResponse().setComplete();
         }
     }
+
+
 
     public static class Config {
         // Configuration properties if needed

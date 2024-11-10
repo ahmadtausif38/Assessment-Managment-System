@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -32,6 +33,10 @@ public class Assessment {
 	@OneToMany(mappedBy = "assessment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@ToString.Exclude
 	private Set<AssessmentRegistration> registrations;
+	
+	// One-to-Many relationship with AssessmentLink
+    @OneToMany(mappedBy = "assessment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AssessmentLink> links;
 	
 	public Assessment(String name, String type) {
 		this.name=name;

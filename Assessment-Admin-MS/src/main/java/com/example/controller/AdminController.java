@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,13 +17,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.dto.AssessmentDTO;
 import com.example.dto.AssessmentRegistrationDTO;
+import com.example.dto.RegistrationResponseDTO;
 import com.example.entity.Employee;
 import com.example.services.AdminService;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	
+
 	@Autowired
 	private AdminService service;
 
@@ -37,9 +39,9 @@ public class AdminController {
 
 	@GetMapping("/home")
 	public ModelAndView getRegistrations() {
-		
+
 		ModelAndView mv = new ModelAndView("admin-home");
-		List<Employee> employees = loadEmployee(); 
+		List<Employee> employees = loadEmployee();
 		mv.addObject("employees", employees);
 		return mv;
 
@@ -49,63 +51,132 @@ public class AdminController {
 	public ModelAndView showAddAssessmentPage() {
 
 		ModelAndView mv = new ModelAndView("add-assessment");
-		 List<String> assessmentTypes = Arrays.asList("Technical", "Behavioral", "Analytical", "Leadership", "Communication", "Creative");
-		 mv.addObject("assessmentTypes", assessmentTypes);
+		List<String> assessmentTypes = Arrays.asList("Technical", "Behavioral", "Analytical", "Leadership",
+				"Communication", "Creative");
+		mv.addObject("assessmentTypes", assessmentTypes);
 		return mv;
 
 	}
+
 	// Add Assignment
 	@PostMapping("/add-assessment")
-	public ModelAndView addAssessment(@RequestParam("name") String assessmentName, @RequestParam("type") String assessmentType) {
-		
-		ModelAndView mv = new ModelAndView("add-assessment");
-		Boolean isSaved=service.saveAssessment(assessmentName.toLowerCase(), assessmentType.toLowerCase());
-		if(isSaved) {
-			mv.addObject("message", "Assessment saved successfully..!!");
-		}else {
-			mv.addObject("message", "Unable to save assessment...!!");
+	public ModelAndView addAssessment(@RequestParam("name") String assessmentName,
+			@RequestParam("type") String assessmentType) {
+
+		ModelAndView mv = new ModelAndView("message");
+		if (service.saveAssessment(assessmentName.toLowerCase(), assessmentType.toLowerCase())) {
+			mv.addObject("message", "Assessment Added successfully...");
+		} else {
+			mv.addObject("message",
+					"Unable to add Assessment.. either Assessment Already Exist .. !! Or Something went wrong..!!");
 		}
 		return mv;
-		
+
 	}
-	
-	
-	// view All Assignemnt
+
+	// view All Assessment
 	@GetMapping("/assessments")
 	public ModelAndView getAllAssessments() {
-		
-		ModelAndView mv= new ModelAndView("view-assessment");
-		List<AssessmentDTO> assessments=service.getAllAssessments();
-		System.out.println(assessments);
+
+		ModelAndView mv = new ModelAndView("view-assessment");
+		mv.addObject("message", "List Of All Assessments");
+		List<AssessmentDTO> assessments = service.getAllAssessments();
+
 		mv.addObject("assessments", assessments);
-		
-		return mv; 
+
+		return mv;
 
 	}
+	
+	//view Deleted/Archived Assessment
+	
+	
+		@GetMapping("/archived-assessments")
+		public ModelAndView getArchivedAssessments() {
 
-	@GetMapping("/registered-user")
+			ModelAndView mv = new ModelAndView("view-archived-assessment");
+			mv.addObject("message", "List Of Deleted/Archived Assessments");
+			List<AssessmentDTO> assessments = service.getArchivedAssessments();
+
+			mv.addObject("assessments", assessments);
+
+			return mv;
+
+		}
+
+	// Fetch Registered Users
+	@GetMapping("/assessment-registeredUsers")
 	public ModelAndView getAllRegisteredUser() {
 
 		ModelAndView mv = new ModelAndView("view-registered-user");
-		mv.addObject("registrations", new ArrayList<AssessmentRegistrationDTO>());
-		return mv; 
+		List<RegistrationResponseDTO>registeredUsers= service.getAllRegisteredUser();
+		
+		System.out.println(registeredUsers);
+		mv.addObject("registrations",registeredUsers);
+
+		return mv;
 	}
 
 	// Delete Assignment
 
 	@PostMapping("/delete-assessment")
-	public String deleteAssessment(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
-	    // Perform the deletion using the service
-	    if (service.deleteAssessmentById(id)) {
-	        redirectAttributes.addFlashAttribute("message", "Assessment with Id : " + id + " deleted successfully..!!");
-	    } else {
-	        redirectAttributes.addFlashAttribute("message", "Unable to delete assessment with Id : " + id);
-	    }
+	public ModelAndView deleteAssessment(@RequestParam("id") Long id) {
+		// Perform the deletion using the service
+		ModelAndView mv = new ModelAndView("message");
+		if (service.deleteAssessmentById(id)) {
+			mv.addObject("message", "Assessment Deleted successfully...");
+		} else {
+			mv.addObject("message", "There is some problem in Deleting assessment...");
+		}
 
-	    return "redirect:/admin/assessments";
+		return mv;
+
+	}
+	
+	//Add Archieved Assessment	addArchived-assessment
+	
+
+	@PostMapping("/addArchived-assessment")
+	public ModelAndView addArchivedAssessment(@RequestParam("id") Long id) {
+		// Perform the deletion using the service
+		ModelAndView mv = new ModelAndView("message");
+		if (service.addArchivedAssessment(id)) {
+			mv.addObject("message", "Assessment Added-back successfully...");
+		} else {
+			mv.addObject("message", "There is some problem in Adding assessment...");
+		}
+
+		return mv;
+
+	}
+	// view assignment by type
+
+	// Add Assessment link
+	@GetMapping("/add-assessmentLink")
+	public ModelAndView showAssessmentLink() {
+
+		ModelAndView mv = new ModelAndView("add-assessmentLink");
+
+		Set<String> assessmentTypes = service.getAllAssessmentNames();
+		mv.addObject("assessmentTypes", assessmentTypes);
+		return mv;
+
 	}
 
-	// view assignment by type
+	@PostMapping("/add-assessmentLink")
+	public ModelAndView addAssessmentLink(@RequestParam("assessmentName") String assessmentName,
+			@RequestParam("testLink") String testLink) {
+
+		ModelAndView mv = new ModelAndView("message");
+		if (service.addAssessmentLink(assessmentName.toLowerCase(), testLink)) {
+			mv.addObject("message", "Assessment Link Added successfully...");
+		} else {
+			mv.addObject("message", "Unable to add Assessment Link..!!");
+		}
+
+		return mv;
+
+	}
 
 	// Show registered user for assignment
 

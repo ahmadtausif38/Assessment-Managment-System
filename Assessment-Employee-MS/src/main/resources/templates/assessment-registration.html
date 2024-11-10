@@ -8,17 +8,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<!-- Header Section -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <span class="navbar-text">
-            Hi, <span th:text="${username}"></span>
-        </span>
-        <div class="ml-auto">
-            <a class="btn btn-outline-danger" href="/logout">Logout</a>
-        </div>
-    </div>
-</nav>
+
+<!-- Include header fragment -->
+<header th:replace="fragments/header :: header"></header>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -27,10 +19,12 @@
                 <div class="card-header">
                     <h4 class="text-center">Register for Assessment</h4>
                 </div>
-                 <!-- Display error message if present -->
-                    <div th:if="${errorMessage}" class="alert alert-danger">
-                        <p th:text="${errorMessage}"></p>
-                    </div>
+
+                <!-- Display error message if present -->
+                <div th:if="${errorMessage}" class="alert alert-danger">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+
                 <div class="card-body">
                     <form action="/employee/assessment-register" method="post">
                         
@@ -38,7 +32,6 @@
                         <div class="form-group">
                             <label for="userId">User ID</label>
                             <input type="text" id="userId" th:value="${userId}" class="form-control" readonly>
-                            <!-- Hidden field to ensure userId is submitted -->
                             <input type="hidden" id="userId" name="userId" th:value="${userId}">
                         </div>
 
@@ -78,12 +71,10 @@
         </div>
     </div>
 </div>
-<!-- Footer Section -->
-<footer class="footer bg-light text-center mt-2">
-    <div class="container">
-        <span class="text-muted">&copy; 2024 Tausif Ahmad -- <em>HCLTech</em>. All Rights Reserved.</span>
-    </div>
-</footer>
+
+<!-- Include footer fragment -->
+<footer th:replace="fragments/footer :: footer"></footer>
+
 <!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

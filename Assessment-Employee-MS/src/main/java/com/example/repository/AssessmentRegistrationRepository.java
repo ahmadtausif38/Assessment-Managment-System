@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,6 @@ public interface AssessmentRegistrationRepository extends JpaRepository<Assessme
 	Optional<AssessmentRegistration> findByuserIdAndAssessment(Long userId, Assessment assessment);
 
 	boolean existsByUserIdAndAssessmentDate(Long userId, LocalDate assessmentDate);
+
+	List<AssessmentRegistration> findByUserId(Long id);
 }
