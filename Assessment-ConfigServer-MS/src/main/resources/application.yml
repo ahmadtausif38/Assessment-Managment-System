@@ -19,8 +19,11 @@ spring:
           uri: https://github.com/ahmadtausif38/Assessment-ConfigServer
           clone-on-start: true
           default-label: main
-          username: ahmadtausif38
-          password: ${MY_SECRET_KEY}
+          username: ${GITHUB_USERNAME}
+          password: ${GITHUB_CONFIG_TOKEN}
 
-
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
